@@ -1,0 +1,37 @@
+
+# ansible/jeos.yml
+- hosts: all
+  become: yes
+  tasks:
+    - name: Base packages
+      apt:
+        name:
+          - nfs-kernel-server
+          - cockpit
+          - cockpit-podman
+          - nftables
+          - openssh-server
+        state: present
+        update_cache: yes
+
+    - name: Create backup user
+      user: { name: backup, system: yes, create_home: no }
+
+    - name: Install manager service unit
+      copy:
+        dest: /etc/systemd/system/backup-manager.service
+        content: |
+          [Unit]
+          Description=Backup Manager
+          After=network-online.target
+          Wants=network-online.target
+          [Service]
+          User=backup
+          Group=backup
+          ExecStart=/srv/backup/manager/BackupManager
+          Restart=always
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Enable services
+      systemd: { name: backup-manager, enabled: yes }

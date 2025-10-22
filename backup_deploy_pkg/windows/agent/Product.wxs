@@ -1,0 +1,23 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Backup Agent" Language="1033" Version="1.0.0" Manufacturer="YourCo" UpgradeCode="{B9C2B9C2-B9C2-B9C2-B9C2-B9C2B9C2B9C2}">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+    <MajorUpgrade AllowDowngrades="no" />
+    <MediaTemplate EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="BackupAgent">
+          <Component Id="AgentExe" Guid="*">
+            <File Id="AgentSvcExe" Source="AgentSvc.exe" KeyPath="yes" />
+            <ServiceInstall Id="AgentSvc" Name="AgentSvc" DisplayName="Backup Agent" Start="auto" Type="ownProcess" ErrorControl="normal" />
+            <ServiceControl Id="AgentSvcCtl" Name="AgentSvc" Start="install" Stop="both" Remove="uninstall" Wait="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+    <Feature Id="Main" Title="Agent" Level="1">
+      <ComponentRef Id="AgentExe" />
+    </Feature>
+  </Product>
+</Wix>

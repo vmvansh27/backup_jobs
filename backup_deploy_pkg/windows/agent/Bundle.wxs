@@ -1,0 +1,10 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Bundle Name="Backup Agent Setup" Version="1.0.0" Manufacturer="YourCo" UpgradeCode="{C0C0C0C0-C0C0-C0C0-C0C0-C0C0C0C0C0C0}">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+    <Chain>
+      <MsiPackage SourceFile="agent.msi" Compressed="yes" Vital="yes" />
+    </Chain>
+  </Bundle>
+</Wix>
